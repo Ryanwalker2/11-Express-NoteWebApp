@@ -14,14 +14,14 @@ app.use(express.urlencoded({ extended: true }));
 app.use(clog);
 app.use('/api', routing);
 
-//Get Routing for homepage
-app.get('/', (req, res) => 
-    res.sendFile(path.join(__dirname, '/public/index.html'))
-);
-
 //GET Routing for notes page
 app.get('/notes', (req, res) =>
     res.sendFile(path.join(__dirname, '/public/notes.html'))
+);
+
+//Get Routing for homepage
+app.get('*', (req, res) => 
+    res.sendFile(path.join(__dirname, '/public/index.html'))
 );
 
 app.listen(PORT, () =>

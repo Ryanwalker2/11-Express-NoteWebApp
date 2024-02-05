@@ -4,7 +4,6 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "start": "server.js"
   },
   "author": "Ryanwalker2",
   "license": "ISC",
