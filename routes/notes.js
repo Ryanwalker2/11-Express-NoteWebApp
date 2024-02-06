@@ -1,6 +1,5 @@
 const notes = require('express').Router();
 const uuid = require('../helpers/uuid');
-const existingNotes = require('../db/notes.json');
 
 const { readFromFile, readAndAppend, deleteFromFile } = require('../helpers/fsUtils');
 
@@ -24,8 +23,9 @@ notes.post('/', (req, res) => {
         res.json(newNote);        
     }
 });
-notes.get('/:id', (req, res) => {
+notes.get('/:id', async (req, res) => {
     if (req.params.id) {
+        const existingNotes = JSON.parse(await readFromFile('./db/notes.json'));
         const noteId = req.params.id;
         for (let i = 0; i < existingNotes.length; i++) {
             const currentNote = existingNotes[i];
@@ -39,18 +39,23 @@ notes.get('/:id', (req, res) => {
     }
 });
 
-notes.delete('/:id', (req, res) => {
+notes.delete('/:id', async (req, res) => {
     if (req.params.id) {
         const noteId = req.params.id;
+        const existingNotes = JSON.parse(await readFromFile('./db/notes.json'));
+        console.log(`existing Notes: ${existingNotes}`);
         for (let i = 0; i < existingNotes.length; i++) {
             const currentNote = existingNotes[i];
-            if (currentNote.id === noteId) {
+            console.log('currentNode: ', currentNote);
+            if (currentNote.id == noteId) {
+                console.log('OK');
                 deleteFromFile(i, './db/notes.json');
-                res.send(`Note successfully removed from list`);
+                return res.send(`Note successfully removed from list`);
             }
         }
+        res.status(404).send('Provided Note ID does not match any existing note');
     } else {
-        res.error('Error in removing note')
+        res.status(400).send('Note ID not provided');
     }
 });
 

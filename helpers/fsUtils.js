@@ -33,6 +33,7 @@ const readAndAppend = (content, file) => {
 
 //Delete object from JSON
 const deleteFromFile = (id, file) => {
+  console.log('Delete from file');
   fs.readFile(file, 'utf8', (err, data) => {
     if (err) {
       console.error(err);
