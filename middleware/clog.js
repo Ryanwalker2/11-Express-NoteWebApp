@@ -1,17 +1,23 @@
 // Custom middleware that logs out the type and path of each request to the server
 const clog = (req, res, next) => {
     const fgCyan = '\x1b[36m';
+    const fgGreen = '\x1b[32m';
+    const fgRed = '\x1b[31m';
     switch (req.method) {
       case 'GET': {
-        console.info(`📗 ${fgCyan}${req.method} request to ${req.path}`);
+        console.info(`📗 ${fgGreen}${req.method} request recieved to ${req.path}`);
         break;
       }
       case 'POST': {
-        console.info(`📘 ${fgCyan}${req.method} request to ${req.path}`);
+        console.info(`📘 ${fgCyan}${req.method} request recieved to ${req.path}`);
+        break;
+      }
+      case 'DELETE': {
+        console.info(`📕 ${fgRed}${req.method} request recieved to ${req.path}`);
         break;
       }
       default:
-        console.log(`📙${fgCyan}${req.method} request to ${req.path}`);
+        console.log(`📙${fgRed}${req.method} request recieved to ${req.path}`);
     }
   
     next();
