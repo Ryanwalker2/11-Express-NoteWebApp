@@ -3,16 +3,16 @@ const path = require('path');
 const { clog } = require('./middleware/clog.js');
 const routing = require('./routes/routing.js');
 
-const PORT = 3001;
+const PORT = process.env.PORT || 3001;
 const app = express();
 
-app.use(express.static('public'));
+app.use(clog);
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
-app.use(clog);
 app.use('/api', routing);
+
+app.use(express.static('public'));
 
 //GET Routing for notes page
 app.get('/notes', (req, res) =>
